@@ -32,6 +32,23 @@ function App() {
     handleSaveData(newTodoList);
   }
 
+  function handleEditTodo(index) {
+    let newTodoList = [...todos];
+    let todoToEdit = newTodoList[index];
+
+    const updatedInput = prompt('Edit your todo:', todoToEdit.input);
+    if (updatedInput === null) return; // Exit if the user cancels
+
+    newTodoList = newTodoList.filter((_, valIndex) => valIndex !== index);
+
+    setTodos(newTodoList);
+
+    const editedTodo = { ...todoToEdit, input: updatedInput };
+    const finalTodoList = [...newTodoList, editedTodo];
+    setTodos(finalTodoList);
+    handleSaveData(finalTodoList);
+  }
+
   function handleDeleteTodo(index) {
     let newTodoList = todos.filter((val, valIndex) => {
       return valIndex !== index;
@@ -66,6 +83,7 @@ function App() {
         selectedTab={selectedTab}
         handleDeleteTodo={handleDeleteTodo}
         handleCompleteTodo={handleCompleteTodo}
+        handleEditTodo={handleEditTodo}
       />
       <TodoInput handleAddTodo={handleAddTodo} />
     </>
